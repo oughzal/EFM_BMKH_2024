@@ -1,4 +1,3 @@
-import 'dart:_js_helper';
 
 abstract class Employee {
   int _matricule = 0;
@@ -44,7 +43,61 @@ class Ouvrier extends Employee {
 
   @override
   double getSalaire() {
-    double salaire = (DateTime.now().year - dateEntrer.year) * SMIG;
-    return (salaire > SMIG * 2)? SMIG*2 : salaire ;
+    double salaire = (DateTime.now().year - _dateEntrer.year) * SMIG;
+    return (salaire > SMIG * 2) ? SMIG * 2 : salaire;
   }
+}
+
+class Cadre extends Employee {
+  int _indice = 0;
+  Cadre(int matricule, String nom, String prenom, DateTime dateNaissance,this._indice) : super(matricule, nom, prenom, dateNaissance);
+  int get indice => _indice;
+  set indice(int value) => _indice = value;
+
+  @override
+  String toString() {
+    return super.toString() + " \n Indice : $indice";
+  }
+
+  @override
+  double getSalaire() {
+    switch (_indice) {
+      case 1:
+        return 13000;
+      case 2:
+        return 15000;
+      case 3:
+        return 17000;
+      case 4:
+        return 20000;
+      default:
+        return 0;
+    }
+  }
+}
+
+class Patron extends Employee {
+  static final int Chiffre_Affaire = 0;
+  double _pourcentage = 0;
+  Patron(int matricule, String nom, String prenom, DateTime dateNaissance,
+      this._pourcentage) : super(matricule, nom, prenom, dateNaissance);
+  double get pourcentage => _pourcentage;
+  set pourcentage(double value) => _pourcentage = value;
+
+  @override
+  String toString() {
+    return super.toString() + "\n Pourcentage : $_pourcentage";
+  }
+
+  @override
+  double getSalaire() {
+    return Chiffre_Affaire * pourcentage / 100;
+  }
+}
+
+void main(List<String> args) {
+  Cadre cadre = Cadre(1, "nom", "prenom", DateTime(2000, 10, 4), 1);
+  print(cadre);
+  print(cadre.getSalaire());
+
 }
